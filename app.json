@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Serviços Emerald",
+    "slug": "emerald-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "emerald",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#0F6E56"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.emerald.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0F6E56"
+      },
+      "package": "com.emerald.app"
+    },
+    "plugins": ["expo-router", "expo-splash-screen"]
+  }
+}
