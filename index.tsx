@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { router } from "expo-router";
 import { Colors } from "../constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import QRCode from "react-native-qrcode-svg";
 
 export default function SplashScreen() {
+  const [showQR, setShowQR] = useState(false);
+
   useEffect(() => {
     setTimeout(async () => {
       const token = await AsyncStorage.getItem("@emerald:token");
+
       if (token) {
         router.replace("/(tabs)/home");
       } else {
-        router.replace("/onboarding");
+        setShowQR(true);
       }
     }, 2500);
   }, []);
@@ -21,13 +25,26 @@ export default function SplashScreen() {
       <View style={styles.logoCircle}>
         <Text style={styles.gem}>💎</Text>
       </View>
+
       <Text style={styles.title}>SERVIÇOS EMERALD</Text>
       <Text style={styles.subtitle}>marketplace de serviços</Text>
-      <ActivityIndicator
-        style={styles.loader}
-        color={Colors.primaryLight}
-        size="small"
-      />
+
+      {showQR ? (
+        <>
+          <Text style={styles.qrText}>Escaneie para entrar</Text>
+
+          <QRCode
+            value="https://seu-site.com/login"
+            size={200}
+          />
+        </>
+      ) : (
+        <ActivityIndicator
+          style={styles.loader}
+          color={Colors.primaryLight}
+          size="small"
+        />
+      )}
     </View>
   );
 }
@@ -49,6 +66,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   gem: { fontSize: 52 },
+
   title: {
     color: Colors.white,
     fontSize: 22,
@@ -56,11 +74,19 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     textAlign: "center",
   },
+
   subtitle: {
     color: Colors.primaryLight,
     fontSize: 14,
     marginTop: 6,
-    marginBottom: 40,
+    marginBottom: 30,
   },
+
+  qrText: {
+    color: Colors.white,
+    marginBottom: 16,
+    fontSize: 16,
+  },
+
   loader: { marginTop: 8 },
 });
